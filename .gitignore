@@ -1,0 +1,58 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environments
+.env
+.venv
+env/
+venv/
+.conda/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Local paths
+configs/paths.yaml
+
+# Dataset files should remain on Zenodo, not GitHub
+data/
+dataset/
+datasets/
+*.zip
+*.rar
+*.7z
+*.tar
+*.gz
+
+# Large data/model files
+*.jpg
+*.jpeg
+*.png
+*.xml
+*.csv
+*.npy
+*.npz
+*.pt
+*.pth
+*.pkl
+*.joblib
+*.h5
+*.onnx
+
+# Regenerable results
+results/figures/
+results/tables/
+results/metrics/
+
+# Logs and temporary files
+*.log
+tmp/
+temp/

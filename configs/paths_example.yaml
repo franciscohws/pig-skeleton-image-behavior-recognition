@@ -1,0 +1,23 @@
+# Example path configuration.
+# Copy this file to configs/paths.yaml and edit paths according to your local machine.
+
+# Root folder where the Zenodo dataset was extracted
+dataset_root: "C:/path/to/zenodo_dataset_v1"
+
+# Main dataset blocks
+annotations_dir: "annotations"
+yolo_pose_5300_folds_dir: "yolo_pose_5300_frames_5fold_temporal"
+yolo_oof_predictions_dir: "yolo_oof_predictions"
+skeleton_windows_dir: "skeleton_windows"
+image_windows_dir: "image_windows/slowfast_dataset_degcn_aligned_5300xml"
+
+# Skeleton windows
+skeleton_T15_dir: "skeleton_windows/T15"
+skeleton_T5_dir: "skeleton_windows/T5"
+
+# Metadata
+metadata_dir: "metadata"
+docs_dir: "docs"
+
+# Local output directory
+results_dir: "results"

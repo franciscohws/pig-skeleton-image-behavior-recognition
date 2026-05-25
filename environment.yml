@@ -1,0 +1,29 @@
+name: pig-skeleton-image-behavior
+channels:
+  - pytorch
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - numpy
+  - pandas
+  - scipy
+  - scikit-learn
+  - matplotlib
+  - seaborn
+  - opencv
+  - pillow
+  - tqdm
+  - pyyaml
+  - openpyxl
+  - jupyter
+  - notebook
+  - ipykernel
+  - pytorch
+  - torchvision
+  - torchaudio
+  - pip
+  - pip:
+      - ultralytics
+      - timm
+      - einops
