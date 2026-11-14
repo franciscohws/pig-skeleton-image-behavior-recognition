@@ -2,34 +2,34 @@
 
 This repository contains the code and documented notebooks used for pig behavior recognition using skeleton-based and image-based temporal representations.
 
-The experiments compare pose/keypoint-based models and RGB video baselines, including YOLOv8n-Pose, DeGCN, KP-TCN, Random Forest, SlowFast, and ViTAM-SlowFast.
+The experiments compare pose/keypoint-based models and RGB video baselines, including YOLOv8n-Pose, DeGCN, KP-TCN, Random Forest, SlowFast, and ViTAM-SlowFast. A separate notebook evaluates selected trained checkpoints on an independent group of pigs.
 
 ## Dataset
 
-The dataset is deposited on Zenodo. The GitHub repository contains only code, notebooks, configuration examples, and documentation.
+The experimental dataset is deposited on Zenodo. The GitHub source repository provides code, notebooks, configuration examples, and documentation; large datasets are distributed separately.
 
-Zenodo DOI:
-
-`TO_BE_ADDED_AFTER_ZENODO_PUBLICATION`
+**Zenodo dataset:** [Pig Skeleton- and Image-Based Behavior Dataset for Spatio-Temporal Behavior Classification](https://doi.org/10.5281/zenodo.20370788)  
+**DOI:** `10.5281/zenodo.20370788`
 
 The Zenodo dataset includes:
 
 - CVAT XML and CSV annotations for the 5,300-frame annotated dataset;
 - YOLOv8n-Pose dataset for the 5,300 annotated frames organized into five temporal folds;
-- out-of-fold YOLOv8n-Pose prediction outputs;
-- skeleton windows for DeGCN and KP-TCN experiments;
+- Out-of-fold YOLOv8n-Pose prediction outputs;
+- Skeleton windows for DeGCN and KP-TCN experiments;
 - RGB image windows for SlowFast and ViTAM-SlowFast baselines;
-- model outputs, metadata, class mapping, keypoint schema, and validation reports.
+- Model outputs, metadata, class mapping, keypoint schema, and validation reports.
 
 ## Repository structure
 
 ```text
-github_repository_v1/
+pig-skeleton-image-behavior-recognition/
 ├── notebooks/
 │   ├── 01_degcn_yolov8npose_pipeline.ipynb
 │   ├── 02_slowfast_baseline.ipynb
 │   ├── 03_tcn_rf_inference_time_comparison.ipynb
-│   └── 04_vitamslowfast_baseline.ipynb
+│   ├── 04_vitamslowfast_baseline.ipynb
+│   └── 05_independent_group_evaluation.ipynb
 ├── configs/
 │   └── paths_example.yaml
 ├── src/
@@ -38,6 +38,7 @@ github_repository_v1/
 │   ├── models/
 │   ├── evaluation/
 │   └── utils/
+├── models/                  # Optional documentation; weights are in GitHub Releases
 ├── docs/
 ├── results/
 ├── README.md
@@ -47,14 +48,45 @@ github_repository_v1/
 └── LICENSE
 ```
 
+> The `models/` directory, if present in the source repository, is not the primary distribution location for the trained weights. Download the model ZIP archives from the GitHub Release below.
+
 ## Notebooks
 
 | Notebook | Purpose |
 |---|---|
-| `01_degcn_yolov8npose_pipeline.ipynb` | YOLOv8n-Pose and DeGCN pipeline using keypoint-based temporal representations. |
-| `02_slowfast_baseline.ipynb` | SlowFast RGB video baseline. |
-| `03_tcn_rf_inference_time_comparison.ipynb` | KP-TCN and Random Forest inference-time comparison. |
-| `04_vitamslowfast_baseline.ipynb` | ViTAM-SlowFast RGB video baseline. |
+| [`01_degcn_yolov8npose_pipeline.ipynb`](notebooks/01_degcn_yolov8npose_pipeline.ipynb) | YOLOv8n-Pose and DeGCN pipeline using keypoint-based temporal representations. |
+| [`02_slowfast_baseline.ipynb`](notebooks/02_slowfast_baseline.ipynb) | SlowFast RGB video baseline. |
+| [`03_tcn_rf_inference_time_comparison.ipynb`](notebooks/03_tcn_rf_inference_time_comparison.ipynb) | KP-TCN and Random Forest inference-time comparison. |
+| [`04_vitamslowfast_baseline.ipynb`](notebooks/04_vitamslowfast_baseline.ipynb) | ViTAM-SlowFast RGB video baseline. |
+| [`05_independent_group_evaluation.ipynb`](notebooks/05_independent_group_evaluation.ipynb) | Evaluation of selected trained models on an independent group, including four-class and six-class comparisons. |
+
+## Pre-trained models — Independent Group Evaluation
+
+The checkpoints used for the independent-group comparison are distributed as **Release assets**, rather than committed directly to the Git repository. This keeps the repository lightweight while preserving the original model files.
+
+**Release:** [Trained models – Independent Group Evaluation (`models-v1.0`)](https://github.com/franciscohws/pig-skeleton-image-behavior-recognition/releases/tag/models-v1.0)
+
+| Archive | Architecture | Available checkpoint configurations selected for the comparison |
+|---|---|---|
+| [`DeGCN.zip`](https://github.com/franciscohws/pig-skeleton-image-behavior-recognition/releases/download/models-v1.0/DeGCN.zip) | DeGCN | 6 classes: fold 2; 4 classes: fold 2 |
+| [`KP_TCN.zip`](https://github.com/franciscohws/pig-skeleton-image-behavior-recognition/releases/download/models-v1.0/KP_TCN.zip) | KP-TCN | 6 classes: fold 1; 4 classes: fold 2 |
+| [`SlowFast.zip`](https://github.com/franciscohws/pig-skeleton-image-behavior-recognition/releases/download/models-v1.0/SlowFast.zip) | SlowFast | 6 classes: fold 3; 4 classes: fold 3 |
+| [`ViTAM_SlowFast.zip`](https://github.com/franciscohws/pig-skeleton-image-behavior-recognition/releases/download/models-v1.0/ViTAM_SlowFast.zip) | ViTAM-SlowFast | 6 classes: fold 1; 4 classes: fold 3 |
+
+The fold identifiers above document the checkpoints selected for the comparative experiment. **The exact filenames and folder structure inside each ZIP should be checked after extraction.** The archives were published by architecture and are not part of the source-code ZIP automatically generated by GitHub.
+
+The six-class task comprises **walking, running, eating, drinking, lying awake, and sleeping**. In the four-class task, walking and running are combined into **locomotion**, and lying awake and sleeping into **lying**; eating and drinking remain distinct.
+
+Checkpoint selection was based on the original evaluation procedure; the independent group was intended for subsequent testing, not for selecting the best fold based on independent-test performance.
+
+### Using the downloaded checkpoints
+
+1. Download the model archives from the [Release page](https://github.com/franciscohws/pig-skeleton-image-behavior-recognition/releases/tag/models-v1.0).
+2. Extract each archive into a local directory, for example `downloaded_models/` (you may place this directory outside the repository).
+3. Open [`05_independent_group_evaluation.ipynb`](notebooks/05_independent_group_evaluation.ipynb) and update the checkpoint and dataset paths to match the extracted files.
+4. Use the appropriate class mapping (4 or 6 classes) and architecture-specific loading code when reproducing the independent-group comparison.
+
+The GitHub Release page lists SHA-256 hashes for the uploaded assets. For full reproducibility, record the archive version (`models-v1.0`), the model filenames, and the hashes used in each run.
 
 ## Installation
 
@@ -73,7 +105,7 @@ pip install -r requirements.txt
 
 ## Dataset setup
 
-After downloading the Zenodo dataset, extract the ZIP files and update:
+After downloading the Zenodo dataset, extract the dataset ZIP files and update:
 
 ```text
 configs/paths_example.yaml
@@ -85,14 +117,14 @@ Copy it to:
 configs/paths.yaml
 ```
 
-and edit the paths according to your local machine.
+Then edit the paths according to your local machine. The trained checkpoints are downloaded separately from the [GitHub model Release](https://github.com/franciscohws/pig-skeleton-image-behavior-recognition/releases/tag/models-v1.0).
 
 ## Reproducibility note
 
-The notebooks were documented to preserve the original experimental flow. Some local paths may need to be adapted before execution.
+The notebooks were documented to preserve the original experimental flow. Some local paths may need to be adapted before execution. Consult the checkpoint filenames, class mapping, and paths used in the individual notebooks. The independent evaluation should not be used to re-select or tune the published checkpoints.
 
 ## License
 
 Code license: MIT License.
 
-Dataset license: Creative Commons Attribution 4.0 International (CC BY 4.0), unless otherwise specified in the Zenodo record.
+Dataset license: Creative Commons Attribution 4.0 International (CC BY 4.0), unless otherwise specified in the [Zenodo record](https://doi.org/10.5281/zenodo.20370788).
